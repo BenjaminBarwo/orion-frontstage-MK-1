@@ -45,6 +45,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         },
       ],
       'expo-video',
+      'expo-sqlite',
+      'expo-localization',
       [
         '@sentry/react-native/expo',
         {
