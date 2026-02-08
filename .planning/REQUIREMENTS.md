@@ -109,37 +109,37 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | — | Pending |
-| AUTH-02 | — | Pending |
-| AUTH-03 | — | Pending |
-| PROF-01 | — | Pending |
-| PROF-02 | — | Pending |
-| PROF-03 | — | Pending |
-| PROF-04 | — | Pending |
-| VID-01 | — | Pending |
-| VID-02 | — | Pending |
-| VID-03 | — | Pending |
-| VID-04 | — | Pending |
-| FEED-01 | — | Pending |
-| FEED-02 | — | Pending |
-| FEED-03 | — | Pending |
-| FEED-04 | — | Pending |
-| FEED-05 | — | Pending |
-| PAY-01 | — | Pending |
-| PAY-02 | — | Pending |
-| PAY-03 | — | Pending |
-| SURV-01 | — | Pending |
-| SURV-02 | — | Pending |
-| SURV-03 | — | Pending |
-| NOTF-01 | — | Pending |
-| NOTF-02 | — | Pending |
-| DATA-01 | — | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| PROF-01 | Phase 3 | Pending |
+| PROF-02 | Phase 3 | Pending |
+| PROF-03 | Phase 3 | Pending |
+| PROF-04 | Phase 3 | Pending |
+| VID-01 | Phase 5 | Pending |
+| VID-02 | Phase 4 | Pending |
+| VID-03 | Phase 4, Phase 6 | Pending |
+| VID-04 | Phase 7 | Pending |
+| FEED-01 | Phase 7 | Pending |
+| FEED-02 | Phase 8 | Pending |
+| FEED-03 | Phase 8 | Pending |
+| FEED-04 | Phase 8 | Pending |
+| FEED-05 | Phase 7 | Pending |
+| PAY-01 | Phase 9 | Pending |
+| PAY-02 | Phase 9 | Pending |
+| PAY-03 | Phase 9 | Pending |
+| SURV-01 | Phase 10 | Pending |
+| SURV-02 | Phase 10 | Pending |
+| SURV-03 | Phase 10 | Pending |
+| NOTF-01 | Phase 11 | Pending |
+| NOTF-02 | Phase 11 | Pending |
+| DATA-01 | Phase 12 | Pending |
 
 **Coverage:**
 - v1 requirements: 25 total
-- Mapped to phases: 0
-- Unmapped: 25 (pending roadmap creation)
+- Mapped to phases: 25
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-08*
-*Last updated: 2026-02-08 after initial definition*
+*Last updated: 2026-02-08 after roadmap creation*
