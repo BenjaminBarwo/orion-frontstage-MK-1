@@ -12,7 +12,7 @@ This roadmap delivers a video-first waitlist MVP for real estate professionals t
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Project Foundation** - Environment setup, dependencies, and infrastructure scaffold
+- [x] **Phase 1: Project Foundation** - Environment setup, dependencies, and infrastructure scaffold ✓ 2026-02-08
 - [ ] **Phase 2: Authentication System** - Pro account creation and session management
 - [ ] **Phase 3: Pro Profile Management** - Profile identity, role categorization, and service areas
 - [ ] **Phase 4: Video Upload** - Camera roll upload with compression
@@ -40,8 +40,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md -- Configuration & build infrastructure (app.config.ts, eas.json, CI/CD)
-- [ ] 01-02-PLAN.md -- Supabase & observability integration (Supabase, Sentry, PostHog)
+- [x] 01-01-PLAN.md -- Configuration & build infrastructure (app.config.ts, eas.json, CI/CD)
+- [x] 01-02-PLAN.md -- Supabase & observability integration (Supabase, Sentry, PostHog)
 
 ### Phase 2: Authentication System
 **Goal**: Pros can create accounts, verify email, and maintain persistent sessions
@@ -214,7 +214,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Project Foundation | 0/TBD | Not started | - |
+| 1. Project Foundation | 2/2 | ✓ Complete | 2026-02-08 |
 | 2. Authentication System | 0/TBD | Not started | - |
 | 3. Pro Profile Management | 0/TBD | Not started | - |
 | 4. Video Upload | 0/TBD | Not started | - |
@@ -229,4 +229,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 ---
 *Roadmap created: 2026-02-08*
-*Last updated: 2026-02-08*
+*Last updated: 2026-02-08 — Phase 1 complete*
