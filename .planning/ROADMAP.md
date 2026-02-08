@@ -37,10 +37,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Sentry error monitoring captures crashes with user context
   4. PostHog analytics tracks basic app lifecycle events
   5. CI/CD pipeline deploys to TestFlight on merge to main
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD during plan-phase
+- [ ] 01-01-PLAN.md -- Configuration & build infrastructure (app.config.ts, eas.json, CI/CD)
+- [ ] 01-02-PLAN.md -- Supabase & observability integration (Supabase, Sentry, PostHog)
 
 ### Phase 2: Authentication System
 **Goal**: Pros can create accounts, verify email, and maintain persistent sessions
