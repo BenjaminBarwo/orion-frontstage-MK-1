@@ -28,7 +28,7 @@ function calculateStrength(password: string): StrengthLevel {
 
   if (score <= 2) {
     return { label: 'Weak', color: authTheme.colors.error, width: 33 };
-  } else if (score <= 4) {
+  } else if (score <= 3) {
     return { label: 'Medium', color: authTheme.colors.gold, width: 66 };
   } else {
     return { label: 'Strong', color: authTheme.colors.success, width: 100 };
