@@ -14,13 +14,19 @@ interface StrengthLevel {
 }
 
 /**
- * Calculate password strength score
- * Score: 0-2 = weak, 3-4 = medium, 5 = strong
+ * Calculate password strength score (0-7 scale)
+ * Uses finer-grained scoring to avoid jumping from Weak to Strong in one keystroke.
+ * 0-2 = Weak, 3-4 = Medium, 5+ = Strong
  */
 function calculateStrength(password: string): StrengthLevel {
   let score = 0;
 
+  // Length milestones (0-3 points)
+  if (password.length >= 4) score++;
   if (password.length >= 8) score++;
+  if (password.length >= 12) score++;
+
+  // Character variety (0-4 points)
   if (/[A-Z]/.test(password)) score++;
   if (/[a-z]/.test(password)) score++;
   if (/[0-9]/.test(password)) score++;
@@ -28,7 +34,7 @@ function calculateStrength(password: string): StrengthLevel {
 
   if (score <= 2) {
     return { label: 'Weak', color: authTheme.colors.error, width: 33 };
-  } else if (score <= 3) {
+  } else if (score <= 4) {
     return { label: 'Medium', color: authTheme.colors.gold, width: 66 };
   } else {
     return { label: 'Strong', color: authTheme.colors.success, width: 100 };
