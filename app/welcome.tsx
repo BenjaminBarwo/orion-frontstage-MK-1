@@ -13,7 +13,7 @@ export default function WelcomeScreen() {
   const router = useRouter();
 
   const handleGetStarted = () => {
-    router.replace('/(tabs)');
+    router.replace('/(onboarding)/role');
   };
 
   return (

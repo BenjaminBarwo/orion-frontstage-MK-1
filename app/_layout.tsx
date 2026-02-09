@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useNavigationContainerRef, Redirect, SplashScreen, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -32,6 +32,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const navigationRef = useNavigationContainerRef();
   const router = useRouter();
+  const [profileComplete, setProfileComplete] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (navigationRef) {
@@ -39,23 +40,53 @@ function RootLayoutNav() {
     }
   }, [navigationRef]);
 
-  // Hide splash screen once session is loaded
+  // Check profile completeness when session exists
   useEffect(() => {
-    if (!isLoading) {
+    async function checkProfile() {
+      if (!session?.user?.id) {
+        setProfileComplete(null);
+        return;
+      }
+
+      try {
+        const { getProfile } = await import('@/lib/profile-service');
+        const profile = await getProfile(session.user.id);
+
+        if (profile && profile.onboarding_completed === true) {
+          setProfileComplete(true);
+        } else {
+          setProfileComplete(false);
+        }
+      } catch (error) {
+        // On error, assume incomplete to be safe
+        setProfileComplete(false);
+      }
+    }
+
+    if (!isLoading && session) {
+      checkProfile();
+    } else if (!session) {
+      setProfileComplete(null);
+    }
+  }, [session, isLoading]);
+
+  // Hide splash screen once session is loaded AND profile check is complete
+  useEffect(() => {
+    if (!isLoading && profileComplete !== null) {
       SplashScreen.hideAsync();
     }
-  }, [isLoading]);
+  }, [isLoading, profileComplete]);
 
   // Show welcome card only for new sign-ups
   useEffect(() => {
-    if (!isLoading && session && isNewSignUp) {
+    if (!isLoading && session && isNewSignUp && profileComplete !== null) {
       clearNewSignUp();
       router.replace('/welcome');
     }
-  }, [session, isLoading, isNewSignUp]);
+  }, [session, isLoading, isNewSignUp, profileComplete]);
 
-  // Show nothing while loading session (splash screen stays visible)
-  if (isLoading) {
+  // Show nothing while loading session or checking profile (splash screen stays visible)
+  if (isLoading || (session && profileComplete === null)) {
     return null;
   }
 
@@ -69,9 +100,14 @@ function RootLayoutNav() {
             redirect={!!session}
           />
           <Stack.Screen
+            name="(onboarding)"
+            options={{ headerShown: false }}
+            redirect={!session || profileComplete !== false}
+          />
+          <Stack.Screen
             name="(tabs)"
             options={{ headerShown: false }}
-            redirect={!session}
+            redirect={!session || !profileComplete}
           />
           <Stack.Screen
             name="welcome"
