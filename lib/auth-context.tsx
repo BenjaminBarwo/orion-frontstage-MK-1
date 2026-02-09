@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { GOOGLE_WEB_CLIENT_ID } from '@/constants/config';
-import { Platform } from 'react-native';
+import { Platform, NativeModules } from 'react-native';
 
 /**
  * Auth context type definition
@@ -27,12 +27,13 @@ let googleSigninModule: typeof import('@react-native-google-signin/google-signin
 let googleConfigured = false;
 
 function getGoogleSignin() {
+  // NativeModules is a safe proxy — returns undefined for missing modules without throwing.
+  // TurboModuleRegistry.getEnforcing (used by require()) throws a fatal invariant violation.
+  if (!NativeModules.RNGoogleSignin) {
+    return null;
+  }
   if (!googleSigninModule) {
-    try {
-      googleSigninModule = require('@react-native-google-signin/google-signin');
-    } catch {
-      return null;
-    }
+    googleSigninModule = require('@react-native-google-signin/google-signin');
   }
   if (!googleConfigured && GOOGLE_WEB_CLIENT_ID && googleSigninModule) {
     googleSigninModule.GoogleSignin.configure({
