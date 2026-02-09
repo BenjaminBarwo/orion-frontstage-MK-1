@@ -6,6 +6,8 @@ export const SUPABASE_URL: string = extra?.supabaseUrl ?? '';
 export const SUPABASE_ANON_KEY: string = extra?.supabaseAnonKey ?? '';
 export const SENTRY_DSN: string = extra?.sentryDsn ?? '';
 export const POSTHOG_API_KEY: string = extra?.posthogApiKey ?? '';
+export const GOOGLE_WEB_CLIENT_ID: string = extra?.googleWebClientId ?? '';
+export const GOOGLE_IOS_CLIENT_ID: string = extra?.googleIosClientId ?? '';
 
 /**
  * Validate required environment variables at startup.
