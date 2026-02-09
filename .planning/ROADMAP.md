@@ -13,7 +13,7 @@ This roadmap delivers a video-first waitlist MVP for real estate professionals t
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Project Foundation** - Environment setup, dependencies, and infrastructure scaffold ✓ 2026-02-08
-- [ ] **Phase 2: Authentication System** - Pro account creation and session management
+- [x] **Phase 2: Authentication System** - Pro account creation and session management ✓ 2026-02-09
 - [ ] **Phase 3: Pro Profile Management** - Profile identity, role categorization, and service areas
 - [ ] **Phase 4: Video Upload** - Camera roll upload with compression
 - [ ] **Phase 5: Video Recording** - In-app video capture
@@ -55,9 +55,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md -- Auth infrastructure (deps, SessionProvider, Zod schemas, toast, theme, protected routes)
-- [ ] 02-02-PLAN.md -- Auth screens (sign-up, sign-in, forgot-password with dark premium styling)
-- [ ] 02-03-PLAN.md -- Welcome card, password reset deep link, settings/logout
+- [x] 02-01-PLAN.md -- Auth infrastructure (deps, SessionProvider, Zod schemas, toast, theme, protected routes)
+- [x] 02-02-PLAN.md -- Auth screens (sign-up, sign-in, forgot-password with dark premium styling)
+- [x] 02-03-PLAN.md -- Welcome card, password reset deep link, settings/logout
 
 ### Phase 3: Pro Profile Management
 **Goal**: Pros can build complete profiles with identity, role, location, and bio
@@ -69,10 +69,13 @@ Plans:
   3. Pro can set service area with Houston as default location
   4. Pro can write and edit bio/about section
   5. Pro profile displays correctly in feed and profile view
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD during plan-phase
+- [ ] 03-01-PLAN.md -- Foundation: deps, migration, profile context, service, schemas, Houston zips, reusable components
+- [ ] 03-02-PLAN.md -- Onboarding flow: 6-step screens (Role, Name, Location, Photo, Bio, Review) + completeness gate
+- [ ] 03-03-PLAN.md -- Profile tab: owner profile view, edit profile screen
+- [ ] 03-04-PLAN.md -- Checkpoint: human verification of complete profile management flow
 
 ### Phase 4: Video Upload
 **Goal**: Pros can upload videos from camera roll with client-side compression before upload
@@ -217,7 +220,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Project Foundation | 2/2 | ✓ Complete | 2026-02-08 |
-| 2. Authentication System | 0/TBD | Not started | - |
+| 2. Authentication System | 3/3 | ✓ Complete | 2026-02-09 |
 | 3. Pro Profile Management | 0/TBD | Not started | - |
 | 4. Video Upload | 0/TBD | Not started | - |
 | 5. Video Recording | 0/TBD | Not started | - |
