@@ -10,8 +10,8 @@ export default function AuthLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        animation: 'fade',
-        animationTypeForReplace: 'push',
+        animation: 'fade_from_bottom',
+        animationDuration: 200,
         contentStyle: {
           backgroundColor: authTheme.colors.background,
         },
