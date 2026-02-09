@@ -23,15 +23,17 @@
 
 7. **Gitignore Updated** — Added `supabase/.temp/` (contains access tokens and linked project ref).
 
-### Action Required
+### Action Required — RESOLVED (2026-02-08)
 
-> **DB schema needs a deliberate redesign pass before building on top of it.** The current `profiles` and `behavioral_events` tables were set up as a functional foundation, but the column choices, data types, and constraints are not yet intentional enough for downstream AI/ML consumption. Specifically:
+> **DB schema ML-readiness optimization — completed.** Migration `20260208000003_optimize_schema_ml_readiness.sql` addressed all items:
 >
-> - **`profiles`**: `role_category` uses a check constraint with string literals — consider a proper enum or lookup table. Fields like `bio`, `service_area`, and `display_name` lack length constraints or structured formats that would make them reliably parseable by models. Think about what signals an ML pipeline actually needs from a profile (e.g., structured `specializations[]`, `years_experience`, `license_number`) vs. free-text fields that add noise.
+> - **`profiles`**: `role_category` is now a PostgreSQL enum. `display_name` (varchar 100), `bio` (varchar 1000), `service_area` (varchar 100) have length constraints. New ML-ready columns: `years_experience` (smallint, 0-99), `license_number` (varchar 50), `specializations` (text array).
 >
-> - **`behavioral_events`**: `event_type` is an unconstrained text field — without a defined taxonomy of event types, this data will be inconsistent and hard to aggregate for training. `event_data` as untyped JSONB is flexible but makes downstream feature extraction brittle. Define explicit event schemas per event type, or at minimum establish a controlled vocabulary for `event_type` values.
+> - **`behavioral_events`**: `event_type` is now a PostgreSQL enum with 28 controlled values across all 12 app phases. `device_platform` is a `device_platform` enum. `event_data` is `NOT NULL` with a CHECK ensuring it's a JSON object. String fields have varchar constraints. Indexes optimized to a composite `(user_id, event_type, created_at)` + standalone `created_at` and `geo_area`.
 >
-> - **General**: Every table should be reviewed with the question: "If an ML model consumed 100k rows of this, would the schema produce clean, structured, unambiguous features?" Right now the answer is "maybe" — it needs to be "yes" before Phase 2 data starts flowing in.
+> - **TypeScript**: `types/events.ts` provides discriminated union types with per-event-type data interfaces and a generic `BehavioralEventInsert<T>` for compile-time event_data validation.
+>
+> - **General**: Schema now produces clean, structured, unambiguous features suitable for ML consumption at scale.
 
 ---
 

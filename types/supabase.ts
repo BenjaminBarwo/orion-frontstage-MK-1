@@ -44,9 +44,9 @@ export type Database = {
           app_version: string | null
           created_at: string
           device_os_version: string | null
-          device_platform: string | null
-          event_data: Json | null
-          event_type: string
+          device_platform: Database["public"]["Enums"]["device_platform"] | null
+          event_data: Json
+          event_type: Database["public"]["Enums"]["event_type"]
           geo_area: string
           id: string
           session_id: string | null
@@ -56,9 +56,11 @@ export type Database = {
           app_version?: string | null
           created_at?: string
           device_os_version?: string | null
-          device_platform?: string | null
-          event_data?: Json | null
-          event_type: string
+          device_platform?:
+            | Database["public"]["Enums"]["device_platform"]
+            | null
+          event_data?: Json
+          event_type: Database["public"]["Enums"]["event_type"]
           geo_area?: string
           id?: string
           session_id?: string | null
@@ -68,9 +70,11 @@ export type Database = {
           app_version?: string | null
           created_at?: string
           device_os_version?: string | null
-          device_platform?: string | null
-          event_data?: Json | null
-          event_type?: string
+          device_platform?:
+            | Database["public"]["Enums"]["device_platform"]
+            | null
+          event_data?: Json
+          event_type?: Database["public"]["Enums"]["event_type"]
           geo_area?: string
           id?: string
           session_id?: string | null
@@ -96,9 +100,12 @@ export type Database = {
           id: string
           is_active: boolean
           is_verified: boolean
-          role_category: string | null
+          license_number: string | null
+          role_category: Database["public"]["Enums"]["role_category"] | null
           service_area: string
+          specializations: string[] | null
           updated_at: string
+          years_experience: number | null
         }
         Insert: {
           avatar_url?: string | null
@@ -109,9 +116,12 @@ export type Database = {
           id: string
           is_active?: boolean
           is_verified?: boolean
-          role_category?: string | null
+          license_number?: string | null
+          role_category?: Database["public"]["Enums"]["role_category"] | null
           service_area?: string
+          specializations?: string[] | null
           updated_at?: string
+          years_experience?: number | null
         }
         Update: {
           avatar_url?: string | null
@@ -122,9 +132,12 @@ export type Database = {
           id?: string
           is_active?: boolean
           is_verified?: boolean
-          role_category?: string | null
+          license_number?: string | null
+          role_category?: Database["public"]["Enums"]["role_category"] | null
           service_area?: string
+          specializations?: string[] | null
           updated_at?: string
+          years_experience?: number | null
         }
         Relationships: []
       }
@@ -136,7 +149,44 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      device_platform: "ios" | "android" | "web"
+      event_type:
+        | "signup"
+        | "login"
+        | "logout"
+        | "session_start"
+        | "session_end"
+        | "email_verified"
+        | "profile_update"
+        | "profile_view"
+        | "video_upload"
+        | "video_record"
+        | "video_view"
+        | "video_like"
+        | "video_unlike"
+        | "feed_scroll"
+        | "video_swipe_left"
+        | "video_swipe_right"
+        | "deck_change"
+        | "subscription_start"
+        | "subscription_cancel"
+        | "subscription_renewed"
+        | "survey_start"
+        | "survey_complete"
+        | "survey_skip"
+        | "notification_received"
+        | "notification_tapped"
+        | "app_open"
+        | "app_close"
+        | "app_background"
+      role_category:
+        | "lender"
+        | "agent"
+        | "attorney"
+        | "title"
+        | "inspector"
+        | "appraiser"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -266,6 +316,47 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      device_platform: ["ios", "android", "web"],
+      event_type: [
+        "signup",
+        "login",
+        "logout",
+        "session_start",
+        "session_end",
+        "email_verified",
+        "profile_update",
+        "profile_view",
+        "video_upload",
+        "video_record",
+        "video_view",
+        "video_like",
+        "video_unlike",
+        "feed_scroll",
+        "video_swipe_left",
+        "video_swipe_right",
+        "deck_change",
+        "subscription_start",
+        "subscription_cancel",
+        "subscription_renewed",
+        "survey_start",
+        "survey_complete",
+        "survey_skip",
+        "notification_received",
+        "notification_tapped",
+        "app_open",
+        "app_close",
+        "app_background",
+      ],
+      role_category: [
+        "lender",
+        "agent",
+        "attorney",
+        "title",
+        "inspector",
+        "appraiser",
+        "other",
+      ],
+    },
   },
 } as const
