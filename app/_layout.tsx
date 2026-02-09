@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack, useNavigationContainerRef, Redirect, SplashScreen } from 'expo-router';
+import { Stack, useNavigationContainerRef, Redirect, SplashScreen, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as Sentry from '@sentry/react-native';
 import Toast from 'react-native-toast-message';
@@ -31,6 +31,8 @@ function RootLayoutNav() {
   const { session, isLoading } = useAuth();
   const colorScheme = useColorScheme();
   const navigationRef = useNavigationContainerRef();
+  const router = useRouter();
+  const prevSessionRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (navigationRef) {
@@ -44,6 +46,15 @@ function RootLayoutNav() {
       SplashScreen.hideAsync();
     }
   }, [isLoading]);
+
+  // Detect fresh sign-up: session transitions from null to exists
+  useEffect(() => {
+    if (!isLoading && session && !prevSessionRef.current) {
+      // New session created (sign-up or first sign-in) — show welcome
+      router.replace('/welcome');
+    }
+    prevSessionRef.current = !!session;
+  }, [session, isLoading]);
 
   // Show nothing while loading session (splash screen stays visible)
   if (isLoading) {
@@ -71,7 +82,6 @@ function RootLayoutNav() {
               headerShown: false,
               gestureEnabled: false,
             }}
-            redirect={!session}
           />
         </Stack>
         {!session ? (
