@@ -54,8 +54,16 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AppErrorBoundary>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(auth)"
+            options={{ headerShown: false }}
+            redirect={!!session}
+          />
+          <Stack.Screen
+            name="(tabs)"
+            options={{ headerShown: false }}
+            redirect={!session}
+          />
           <Stack.Screen
             name="welcome"
             options={{
@@ -63,11 +71,12 @@ function RootLayoutNav() {
               headerShown: false,
               gestureEnabled: false,
             }}
+            redirect={!session}
           />
         </Stack>
-        {/* Redirect based on auth state - routes will be created in Plans 02-02 and 02-03 */}
-        {!session && <Redirect href={'/(auth)/sign-up' as any} />}
-        {session && <Redirect href="/(tabs)" />}
+        {!session ? (
+          <Redirect href={'/(auth)/sign-up' as any} />
+        ) : null}
       </AppErrorBoundary>
       <StatusBar style="auto" />
       <Toast />
