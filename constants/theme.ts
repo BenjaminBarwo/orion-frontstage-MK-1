@@ -51,3 +51,53 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+/**
+ * Auth-specific theme constants for dark premium authentication UI
+ */
+export const authTheme = {
+  colors: {
+    background: '#0D0D0D',
+    surface: '#1A1A1A',
+    gold: '#C5A44E',
+    white: '#FFFFFF',
+    muted: '#9A9A9A',
+    error: '#FF4444',
+    success: '#4CAF50',
+    inputBorder: '#2A2A2A',
+    inputBorderFocused: '#C5A44E',
+    inputBackground: '#141414',
+  },
+  typography: {
+    heading: 28,
+    subheading: 18,
+    body: 16,
+    caption: 13,
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    xxl: 48,
+  },
+  borderRadius: {
+    sm: 8,
+    md: 12,
+    lg: 16,
+  },
+  shadows: {
+    card: Platform.select({
+      ios: {
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
+  },
+} as const;

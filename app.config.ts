@@ -3,6 +3,46 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 export default ({ config }: ConfigContext): ExpoConfig => {
   const appVariant = process.env.APP_VARIANT || 'development';
 
+  // Build plugins array with conditional Google Sign-In
+  const plugins: ExpoConfig['plugins'] = [
+    'expo-router',
+    [
+      'expo-splash-screen',
+      {
+        image: './assets/images/splash-icon.png',
+        imageWidth: 200,
+        resizeMode: 'contain',
+        backgroundColor: '#ffffff',
+        dark: {
+          backgroundColor: '#000000',
+        },
+      },
+    ],
+    'expo-video',
+    'expo-sqlite',
+    'expo-localization',
+    'expo-apple-authentication',
+  ];
+
+  // Only add Google Sign-In plugin if URL scheme is configured
+  if (process.env.GOOGLE_IOS_URL_SCHEME) {
+    plugins.push([
+      '@react-native-google-signin/google-signin',
+      {
+        iosUrlScheme: process.env.GOOGLE_IOS_URL_SCHEME,
+      },
+    ]);
+  }
+
+  // Add Sentry last
+  plugins.push([
+    '@sentry/react-native/expo',
+    {
+      organization: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+    },
+  ]);
+
   return {
     ...config,
     name: appVariant === 'production' ? 'MVR' : 'MVR (Dev)',
@@ -30,31 +70,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       output: 'static',
       favicon: './assets/images/favicon.png',
     },
-    plugins: [
-      'expo-router',
-      [
-        'expo-splash-screen',
-        {
-          image: './assets/images/splash-icon.png',
-          imageWidth: 200,
-          resizeMode: 'contain',
-          backgroundColor: '#ffffff',
-          dark: {
-            backgroundColor: '#000000',
-          },
-        },
-      ],
-      'expo-video',
-      'expo-sqlite',
-      'expo-localization',
-      [
-        '@sentry/react-native/expo',
-        {
-          organization: process.env.SENTRY_ORG,
-          project: process.env.SENTRY_PROJECT,
-        },
-      ],
-    ],
+    plugins,
     experiments: {
       typedRoutes: true,
       reactCompiler: true,
@@ -64,6 +80,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       supabaseAnonKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
       sentryDsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
       posthogApiKey: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
+      googleWebClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
+      googleIosClientId: process.env.GOOGLE_IOS_CLIENT_ID,
       eas: {
         projectId: process.env.EAS_PROJECT_ID,
       },
