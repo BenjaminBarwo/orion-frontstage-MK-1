@@ -32,3 +32,36 @@
 > - **`behavioral_events`**: `event_type` is an unconstrained text field — without a defined taxonomy of event types, this data will be inconsistent and hard to aggregate for training. `event_data` as untyped JSONB is flexible but makes downstream feature extraction brittle. Define explicit event schemas per event type, or at minimum establish a controlled vocabulary for `event_type` values.
 >
 > - **General**: Every table should be reviewed with the question: "If an ML model consumed 100k rows of this, would the schema produce clean, structured, unambiguous features?" Right now the answer is "maybe" — it needs to be "yes" before Phase 2 data starts flowing in.
+
+---
+
+## 2026-02-08 — Sentry Full Optimization
+
+### What Was Done
+
+1. **`lib/sentry.ts` — Full configuration overhaul**
+   - `reactNavigationIntegration` with `enableTimeToInitialDisplay` for automatic screen performance traces
+   - Environment (`development`/`production`) and release (`slug@version`) tagging with `dist` for native build version
+   - `profilesSampleRate: 0.1` (prod) for CPU profiling on real devices
+   - `enableCaptureFailedRequests` — auto-captures HTTP 4xx/5xx errors
+   - `enableAppHangTracking` with 2s threshold — catches frozen UI on iOS
+   - `maxBreadcrumbs: 100`, `attachStacktrace: true`, `normalizeDepth: 5`
+   - `beforeSend` — strips `Authorization` and `Cookie` headers (PII)
+   - `beforeBreadcrumb` — drops noisy `/health` XHR breadcrumbs
+   - Helper functions: `captureError()`, `captureMessage()`, `addBreadcrumb()` with typed context (tags, extra, level)
+   - `captureSupabaseError()` — auto-tags `supabase.operation` and `supabase.code` for Supabase-specific errors
+
+2. **`components/error-boundary.tsx` — New component**
+   - Wraps `Sentry.ErrorBoundary` with a user-friendly fallback ("Something went wrong" + Try Again)
+   - Tags captured errors with `boundary: app` for Sentry dashboard filtering
+
+3. **`app/_layout.tsx` — Integration wiring**
+   - `Sentry.wrap(RootLayout)` — required HOC for React Native touch/gesture tracking
+   - `useNavigationContainerRef` + `registerNavigationContainer` — enables automatic screen transition performance traces
+   - `AppErrorBoundary` wrapping the `Stack` navigator
+
+### Still Needed
+
+> **Sentry MCP server** — Add to `.mcp.json` once the app is in production and we're actively triaging errors. Enables querying issues, managing alerts, and triaging directly from Claude. Not needed until there's real error volume to work with. Reference: `https://github.com/getsentry/sentry-mcp`
+
+> **Source map uploads** — Set `SENTRY_AUTH_TOKEN` as an EAS secret (`eas secret:create --name SENTRY_AUTH_TOKEN --value <token>`) before production builds. Without this, production stack traces will be obfuscated.
