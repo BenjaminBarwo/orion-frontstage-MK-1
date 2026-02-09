@@ -2,8 +2,6 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { GOOGLE_WEB_CLIENT_ID } from '@/constants/config';
-import * as AppleAuthentication from 'expo-apple-authentication';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Platform } from 'react-native';
 
 /**
@@ -22,14 +20,28 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
- * Configure Google Sign In once at module level
- * Only configures if GOOGLE_WEB_CLIENT_ID is set (graceful degradation)
+ * Lazy-load Google Sign In to avoid native module crash in Expo Go.
+ * Returns GoogleSignin or null if the native module isn't available.
  */
-if (GOOGLE_WEB_CLIENT_ID) {
-  GoogleSignin.configure({
-    webClientId: GOOGLE_WEB_CLIENT_ID,
-    offlineAccess: true,
-  });
+let googleSigninModule: typeof import('@react-native-google-signin/google-signin') | null = null;
+let googleConfigured = false;
+
+function getGoogleSignin() {
+  if (!googleSigninModule) {
+    try {
+      googleSigninModule = require('@react-native-google-signin/google-signin');
+    } catch {
+      return null;
+    }
+  }
+  if (!googleConfigured && GOOGLE_WEB_CLIENT_ID && googleSigninModule) {
+    googleSigninModule.GoogleSignin.configure({
+      webClientId: GOOGLE_WEB_CLIENT_ID,
+      offlineAccess: true,
+    });
+    googleConfigured = true;
+  }
+  return googleSigninModule?.GoogleSignin ?? null;
 }
 
 interface SessionProviderProps {
@@ -104,6 +116,13 @@ export function SessionProvider({ children }: SessionProviderProps) {
    * Silently handles user cancellation
    */
   const signInWithApple = async () => {
+    let AppleAuthentication: typeof import('expo-apple-authentication');
+    try {
+      AppleAuthentication = require('expo-apple-authentication');
+    } catch {
+      throw new Error('Apple Sign In is not available in this environment');
+    }
+
     try {
       const credential = await AppleAuthentication.signInAsync({
         requestedScopes: [
@@ -138,8 +157,9 @@ export function SessionProvider({ children }: SessionProviderProps) {
    * Sign in with Google
    */
   const signInWithGoogle = async () => {
-    if (!GOOGLE_WEB_CLIENT_ID) {
-      throw new Error('Google Sign In is not configured');
+    const GoogleSignin = getGoogleSignin();
+    if (!GoogleSignin || !GOOGLE_WEB_CLIENT_ID) {
+      throw new Error('Google Sign In is not available in this environment');
     }
 
     try {
