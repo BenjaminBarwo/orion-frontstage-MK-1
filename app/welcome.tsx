@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import Animated, { FadeIn } from 'react-native-reanimated';
+import { LinearGradient } from 'expo-linear-gradient';
 import { authTheme } from '@/constants/theme';
 
 /**
@@ -18,8 +19,13 @@ export default function WelcomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <Animated.View entering={FadeIn.duration(600)} style={styles.content}>
-        {/* Premium accent - gold line */}
-        <View style={styles.accent} />
+        {/* Premium accent - gradient gold line */}
+        <LinearGradient
+          colors={[...authTheme.colors.goldGradient]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.accent}
+        />
 
         {/* Logo */}
         <Text style={styles.logo}>MVR</Text>
@@ -36,12 +42,15 @@ export default function WelcomeScreen() {
 
         {/* Get Started button - positioned near bottom */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleGetStarted}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.buttonText}>Get Started</Text>
+          <TouchableOpacity onPress={handleGetStarted} activeOpacity={0.8}>
+            <LinearGradient
+              colors={[...authTheme.colors.goldGradient]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Get Started</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -63,7 +72,7 @@ const styles = StyleSheet.create({
   accent: {
     width: 60,
     height: 2,
-    backgroundColor: authTheme.colors.gold,
+    borderRadius: 1,
     marginBottom: authTheme.spacing.lg,
   },
   logo: {
@@ -95,7 +104,6 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 56,
-    backgroundColor: authTheme.colors.gold,
     borderRadius: authTheme.borderRadius.lg,
     alignItems: 'center',
     justifyContent: 'center',

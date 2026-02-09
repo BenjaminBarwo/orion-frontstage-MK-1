@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -20,6 +19,7 @@ import { newPasswordSchema, NewPasswordInput } from '@/lib/validation/auth-schem
 import { showAuthError, showAuthSuccess } from '@/lib/auth-toast';
 import { AuthInput } from '@/components/auth/auth-input';
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter';
+import { GoldButton } from '@/components/auth/gold-button';
 
 /**
  * Reset password screen for deep link callback
@@ -118,18 +118,13 @@ export default function ResetPasswordScreen() {
           </View>
 
           {/* Update Password Button */}
-          <TouchableOpacity
-            style={[styles.button, isSubmitting && styles.buttonDisabled]}
+          <GoldButton
+            title="Update Password"
             onPress={handleSubmit(onSubmit)}
+            isLoading={isSubmitting}
             disabled={isSubmitting}
-            activeOpacity={0.8}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator color={authTheme.colors.background} />
-            ) : (
-              <Text style={styles.buttonText}>Update Password</Text>
-            )}
-          </TouchableOpacity>
+            style={styles.buttonContainer}
+          />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -165,20 +160,7 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: authTheme.spacing.lg,
   },
-  button: {
-    height: 52,
-    backgroundColor: authTheme.colors.gold,
-    borderRadius: authTheme.borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonContainer: {
     marginBottom: authTheme.spacing.md,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: authTheme.colors.background,
-    fontSize: authTheme.typography.body,
-    fontWeight: 'bold',
   },
 });

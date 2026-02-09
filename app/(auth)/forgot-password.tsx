@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -20,6 +19,7 @@ import { supabase } from '@/lib/supabase';
 import { passwordResetSchema, PasswordResetInput } from '@/lib/validation/auth-schemas';
 import { showAuthError, showAuthSuccess } from '@/lib/auth-toast';
 import { AuthInput } from '@/components/auth/auth-input';
+import { GoldButton } from '@/components/auth/gold-button';
 
 /**
  * Password reset request screen
@@ -102,18 +102,13 @@ export default function ForgotPasswordScreen() {
               </View>
 
               {/* Send Reset Link Button */}
-              <TouchableOpacity
-                style={[styles.button, isSubmitting && styles.buttonDisabled]}
+              <GoldButton
+                title="Send Reset Link"
                 onPress={handleSubmit(onSubmit)}
+                isLoading={isSubmitting}
                 disabled={isSubmitting}
-                activeOpacity={0.8}
-              >
-                {isSubmitting ? (
-                  <ActivityIndicator color={authTheme.colors.background} />
-                ) : (
-                  <Text style={styles.buttonText}>Send Reset Link</Text>
-                )}
-              </TouchableOpacity>
+                style={styles.buttonContainer}
+              />
 
               {/* Back to Sign In Link */}
               <TouchableOpacity
@@ -137,13 +132,11 @@ export default function ForgotPasswordScreen() {
               </View>
 
               {/* Back to Sign In Button */}
-              <TouchableOpacity
-                style={styles.button}
+              <GoldButton
+                title="Back to Sign In"
                 onPress={() => router.push('/(auth)/sign-in')}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.buttonText}>Back to Sign In</Text>
-              </TouchableOpacity>
+                style={styles.buttonContainer}
+              />
             </>
           )}
         </ScrollView>
@@ -188,21 +181,8 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: authTheme.spacing.lg,
   },
-  button: {
-    height: 52,
-    backgroundColor: authTheme.colors.gold,
-    borderRadius: authTheme.borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonContainer: {
     marginBottom: authTheme.spacing.md,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: authTheme.colors.background,
-    fontSize: authTheme.typography.body,
-    fontWeight: 'bold',
   },
   footer: {
     alignItems: 'center',

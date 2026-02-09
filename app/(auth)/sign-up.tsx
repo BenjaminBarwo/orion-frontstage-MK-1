@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -20,6 +19,7 @@ import { showAuthError, showAuthSuccess } from '@/lib/auth-toast';
 import { AuthInput } from '@/components/auth/auth-input';
 import { PasswordStrengthMeter } from '@/components/auth/password-strength-meter';
 import { SocialAuthButtons } from '@/components/auth/social-auth-buttons';
+import { GoldButton } from '@/components/auth/gold-button';
 import { TextInput } from 'react-native';
 
 /**
@@ -158,18 +158,13 @@ export default function SignUpScreen() {
           </View>
 
           {/* Sign Up Button */}
-          <TouchableOpacity
-            style={[styles.button, isSubmitting && styles.buttonDisabled]}
+          <GoldButton
+            title="Create Account"
             onPress={handleSubmit(onSubmit)}
+            isLoading={isSubmitting}
             disabled={isSubmitting}
-            activeOpacity={0.8}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator color={authTheme.colors.background} />
-            ) : (
-              <Text style={styles.buttonText}>Create Account</Text>
-            )}
-          </TouchableOpacity>
+            style={styles.buttonContainer}
+          />
 
           {/* Sign In Link */}
           <View style={styles.footer}>
@@ -230,21 +225,8 @@ const styles = StyleSheet.create({
   form: {
     marginBottom: authTheme.spacing.lg,
   },
-  button: {
-    height: 52,
-    backgroundColor: authTheme.colors.gold,
-    borderRadius: authTheme.borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonContainer: {
     marginBottom: authTheme.spacing.md,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: authTheme.colors.background,
-    fontSize: authTheme.typography.body,
-    fontWeight: 'bold',
   },
   footer: {
     flexDirection: 'row',

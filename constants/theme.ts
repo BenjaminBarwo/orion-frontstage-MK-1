@@ -60,6 +60,7 @@ export const authTheme = {
     background: '#0D0D0D',
     surface: '#1A1A1A',
     gold: '#C5A44E',
+    goldGradient: ['#DFBD69', '#B5943A'] as const,
     white: '#FFFFFF',
     muted: '#9A9A9A',
     error: '#FF4444',

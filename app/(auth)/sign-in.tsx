@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
@@ -19,6 +18,7 @@ import { signInSchema, SignInInput } from '@/lib/validation/auth-schemas';
 import { showAuthError } from '@/lib/auth-toast';
 import { AuthInput } from '@/components/auth/auth-input';
 import { SocialAuthButtons } from '@/components/auth/social-auth-buttons';
+import { GoldButton } from '@/components/auth/gold-button';
 import { TextInput } from 'react-native';
 
 /**
@@ -158,18 +158,13 @@ export default function SignInScreen() {
           </View>
 
           {/* Sign In Button */}
-          <TouchableOpacity
-            style={[styles.button, isSubmitting && styles.buttonDisabled]}
+          <GoldButton
+            title="Sign In"
             onPress={handleSubmit(onSubmit)}
+            isLoading={isSubmitting}
             disabled={isSubmitting}
-            activeOpacity={0.8}
-          >
-            {isSubmitting ? (
-              <ActivityIndicator color={authTheme.colors.background} />
-            ) : (
-              <Text style={styles.buttonText}>Sign In</Text>
-            )}
-          </TouchableOpacity>
+            style={styles.buttonContainer}
+          />
 
           {/* Sign Up Link */}
           <View style={styles.footer}>
@@ -239,21 +234,8 @@ const styles = StyleSheet.create({
     fontSize: authTheme.typography.caption,
     fontWeight: '600',
   },
-  button: {
-    height: 52,
-    backgroundColor: authTheme.colors.gold,
-    borderRadius: authTheme.borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
+  buttonContainer: {
     marginBottom: authTheme.spacing.md,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: authTheme.colors.background,
-    fontSize: authTheme.typography.body,
-    fontWeight: 'bold',
   },
   footer: {
     flexDirection: 'row',
