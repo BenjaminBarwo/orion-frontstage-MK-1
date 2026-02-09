@@ -6,18 +6,9 @@ import { isHoustonZip } from '@/constants/houston-zips';
  * Step 1: Role selection validation
  */
 export const roleSchema = z.object({
-  role: z.enum(
-    [
-      ROLE_CATEGORIES[0].key,
-      ROLE_CATEGORIES[1].key,
-      ROLE_CATEGORIES[2].key,
-      ROLE_CATEGORIES[3].key,
-      ROLE_CATEGORIES[4].key,
-    ],
-    {
-      message: 'Please select a role',
-    }
-  ),
+  role: z.enum(['lender', 'agent', 'attorney', 'title', 'inspector'], {
+    message: 'Please select a role',
+  }),
 });
 
 /**
