@@ -52,10 +52,12 @@ Plans:
   2. Pro receives email verification link and verifies account
   3. Pro session persists across app restarts without re-login
   4. Pro can log out from any screen
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD during plan-phase
+- [ ] 02-01-PLAN.md -- Auth infrastructure (deps, SessionProvider, Zod schemas, toast, theme, protected routes)
+- [ ] 02-02-PLAN.md -- Auth screens (sign-up, sign-in, forgot-password with dark premium styling)
+- [ ] 02-03-PLAN.md -- Welcome card, password reset deep link, settings/logout
 
 ### Phase 3: Pro Profile Management
 **Goal**: Pros can build complete profiles with identity, role, location, and bio
