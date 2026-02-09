@@ -51,7 +51,7 @@ Plans:
   1. Pro can create account with email and password
   2. Pro receives email verification link and verifies account
   3. Pro session persists across app restarts without re-login
-  4. Pro can log out from any screen
+  4. Pro can log out from Settings screen
 **Plans**: 3 plans
 
 Plans:
