@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useNavigationContainerRef, Redirect, SplashScreen, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -28,11 +28,10 @@ export const unstable_settings = {
  * Separated to allow useAuth hook access
  */
 function RootLayoutNav() {
-  const { session, isLoading } = useAuth();
+  const { session, isLoading, isNewSignUp, clearNewSignUp } = useAuth();
   const colorScheme = useColorScheme();
   const navigationRef = useNavigationContainerRef();
   const router = useRouter();
-  const prevSessionRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (navigationRef) {
@@ -47,14 +46,13 @@ function RootLayoutNav() {
     }
   }, [isLoading]);
 
-  // Detect fresh sign-up: session transitions from null to exists
+  // Show welcome card only for new sign-ups
   useEffect(() => {
-    if (!isLoading && session && !prevSessionRef.current) {
-      // New session created (sign-up or first sign-in) — show welcome
+    if (!isLoading && session && isNewSignUp) {
+      clearNewSignUp();
       router.replace('/welcome');
     }
-    prevSessionRef.current = !!session;
-  }, [session, isLoading]);
+  }, [session, isLoading, isNewSignUp]);
 
   // Show nothing while loading session (splash screen stays visible)
   if (isLoading) {

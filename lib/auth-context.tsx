@@ -10,6 +10,8 @@ import { Platform, NativeModules } from 'react-native';
 interface AuthContextType {
   session: Session | null;
   isLoading: boolean;
+  isNewSignUp: boolean;
+  clearNewSignUp: () => void;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -55,6 +57,9 @@ interface SessionProviderProps {
 export function SessionProvider({ children }: SessionProviderProps) {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isNewSignUp, setIsNewSignUp] = useState(false);
+
+  const clearNewSignUp = () => setIsNewSignUp(false);
 
   // Load session on mount
   useEffect(() => {
@@ -99,6 +104,7 @@ export function SessionProvider({ children }: SessionProviderProps) {
     if (error) {
       throw error;
     }
+    setIsNewSignUp(true);
   };
 
   /**
@@ -198,6 +204,8 @@ export function SessionProvider({ children }: SessionProviderProps) {
       value={{
         session,
         isLoading,
+        isNewSignUp,
+        clearNewSignUp,
         signIn,
         signUp,
         signOut,
