@@ -49,7 +49,7 @@ export default function SignUpScreen() {
       setIsSubmitting(true);
       await signUp(data.email, data.password);
       showAuthSuccess('Account created! Welcome to MVR.');
-      router.replace('/welcome');
+      // Session change triggers welcome card redirect in root layout
     } catch (error) {
       showAuthError(error as Error);
     } finally {
