@@ -17,6 +17,7 @@ import { useProfileForm } from '@/lib/profile-context';
 import { ProfilePhotoDisplay } from '@/components/profile/profile-photo-display';
 import { saveProfile } from '@/lib/profile-service';
 import { useAuth } from '@/lib/auth-context';
+import { useProfileGate } from '@/lib/profile-gate';
 import { showAuthSuccess, showAuthError } from '@/lib/auth-toast';
 import { ROLE_CATEGORIES } from '@/constants/roles';
 
@@ -28,6 +29,7 @@ export default function ReviewScreen() {
   const router = useRouter();
   const { session } = useAuth();
   const { formData, resetFormData } = useProfileForm();
+  const { markProfileComplete } = useProfileGate();
   const [isSaving, setIsSaving] = useState(false);
 
   const roleLabel =
@@ -56,8 +58,7 @@ export default function ReviewScreen() {
       });
 
       showAuthSuccess('Profile created!');
-      resetFormData();
-      router.replace('/(tabs)');
+      markProfileComplete();
     } catch (error) {
       if (error instanceof Error) {
         showAuthError(error);

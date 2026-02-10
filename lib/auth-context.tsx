@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { GOOGLE_WEB_CLIENT_ID } from '@/constants/config';
@@ -59,20 +59,15 @@ export function SessionProvider({ children }: SessionProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isNewSignUp, setIsNewSignUp] = useState(false);
 
-  const clearNewSignUp = () => setIsNewSignUp(false);
+  const clearNewSignUp = useCallback(() => setIsNewSignUp(false), []);
 
-  // Load session on mount
+  // Load session on mount and subscribe to auth state changes
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setIsLoading(false);
-    });
-
-    // Subscribe to auth state changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
@@ -81,7 +76,7 @@ export function SessionProvider({ children }: SessionProviderProps) {
   /**
    * Sign in with email and password
    */
-  const signIn = async (email: string, password: string) => {
+  const signIn = useCallback(async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -90,12 +85,12 @@ export function SessionProvider({ children }: SessionProviderProps) {
     if (error) {
       throw error;
     }
-  };
+  }, []);
 
   /**
    * Sign up with email and password
    */
-  const signUp = async (email: string, password: string) => {
+  const signUp = useCallback(async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -105,24 +100,24 @@ export function SessionProvider({ children }: SessionProviderProps) {
       throw error;
     }
     setIsNewSignUp(true);
-  };
+  }, []);
 
   /**
    * Sign out current user
    */
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
       throw error;
     }
-  };
+  }, []);
 
   /**
    * Sign in with Apple
    * Silently handles user cancellation
    */
-  const signInWithApple = async () => {
+  const signInWithApple = useCallback(async () => {
     let AppleAuthentication: typeof import('expo-apple-authentication');
     try {
       AppleAuthentication = require('expo-apple-authentication');
@@ -158,12 +153,12 @@ export function SessionProvider({ children }: SessionProviderProps) {
       }
       throw error;
     }
-  };
+  }, []);
 
   /**
    * Sign in with Google
    */
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = useCallback(async () => {
     const GoogleSignin = getGoogleSignin();
     if (!GoogleSignin || !GOOGLE_WEB_CLIENT_ID) {
       throw new Error('Google Sign In is not available in this environment');
@@ -197,22 +192,25 @@ export function SessionProvider({ children }: SessionProviderProps) {
       }
       throw error;
     }
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      session,
+      isLoading,
+      isNewSignUp,
+      clearNewSignUp,
+      signIn,
+      signUp,
+      signOut,
+      signInWithGoogle,
+      signInWithApple,
+    }),
+    [session, isLoading, isNewSignUp, clearNewSignUp, signIn, signUp, signOut, signInWithGoogle, signInWithApple]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        session,
-        isLoading,
-        isNewSignUp,
-        clearNewSignUp,
-        signIn,
-        signUp,
-        signOut,
-        signInWithGoogle,
-        signInWithApple,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
