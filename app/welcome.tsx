@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { authTheme } from '@/constants/theme';
+import { useAuth } from '@/lib/auth-context';
 
 /**
  * Post-signup welcome card with dark premium styling
@@ -11,9 +12,11 @@ import { authTheme } from '@/constants/theme';
  */
 export default function WelcomeScreen() {
   const router = useRouter();
+  const { clearNewSignUp } = useAuth();
 
   const handleGetStarted = () => {
-    router.replace('/(tabs)');
+    clearNewSignUp();
+    router.replace('/(onboarding)/role');
   };
 
   return (

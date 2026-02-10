@@ -9,9 +9,9 @@ Requirements for waitlist MVP launch. Each maps to roadmap phases.
 
 ### Authentication
 
-- [ ] **AUTH-01**: Pro can create account with email and password
-- [ ] **AUTH-02**: Pro receives email verification after signup
-- [ ] **AUTH-03**: Pro session persists across app restarts
+- [x] **AUTH-01**: Pro can create account with email and password ✓
+- [x] **AUTH-02**: Pro receives email verification after signup ✓
+- [x] **AUTH-03**: Pro session persists across app restarts ✓
 
 ### Pro Profile
 
@@ -109,9 +109,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 2 | Pending |
-| AUTH-02 | Phase 2 | Pending |
-| AUTH-03 | Phase 2 | Pending |
+| AUTH-01 | Phase 2 | ✓ Complete |
+| AUTH-02 | Phase 2 | ✓ Complete |
+| AUTH-03 | Phase 2 | ✓ Complete |
 | PROF-01 | Phase 3 | Pending |
 | PROF-02 | Phase 3 | Pending |
 | PROF-03 | Phase 3 | Pending |
